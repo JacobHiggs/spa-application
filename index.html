@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8" />
   <title>SPA Auth0 Example</title>
 </head>
-
 <body>
   <h1>Welcome</h1>
   <button id="login">Log In</button>
@@ -13,7 +11,7 @@
   <pre id="user"></pre>
 
   <script type="module">
-    import { createAuth0Client } from 'https://cdn.jsdelivr.net/npm/@auth0/auth0-spa-js@2.0.4/+esm';
+    import { createAuth0Client } from 'https://esm.sh/@auth0/auth0-spa-js@2.0.4';
 
     const auth0Client = await createAuth0Client({
       domain: "jacoblogin.acmetest.org",
@@ -45,5 +43,4 @@
     });
   </script>
 </body>
-
 </html>

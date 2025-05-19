@@ -19,17 +19,17 @@
 
         // Replace with your own Auth0 domain and client ID
         const auth0Client = await createAuth0Client({
-            domain: "jacoblogin.acmetest.org",
-            authorizationParams: {
-                client_id: "Q9DDA3eH244GT6OwLzltibPqfyPdWaxe",
-                redirect_uri: "https://jacobhiggs.github.io/spa-application/"
-            }
+          domain: "jacoblogin.acmetest.org",
+          authorizationParams: {
+            client_id: "Sflii0gup2Gjg65gsmj6Yfrs737BbVml",
+            redirect_uri: "https://jacobhiggs.github.io/spa-application/"
+          }
         });
 
         // Handle redirect from Auth0 (after login)
         if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
-            await auth0Client.handleRedirectCallback();
-            window.history.replaceState({}, document.title, "/");
+          await auth0Client.handleRedirectCallback();
+          window.history.replaceState({}, document.title, "/spa-application/");
         }
 
         // Update UI

@@ -22,9 +22,15 @@
     });
 
     if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+      const clientConfig = auth0Client.options?.authorizationParams;
+    
+      alert("Client ID from config: " + clientConfig?.client_id);
+      console.log("Auth0 client config:", auth0Client);
+      
       await auth0Client.handleRedirectCallback();
       window.history.replaceState({}, document.title, "/spa-application/");
     }
+
 
     const isAuthenticated = await auth0Client.isAuthenticated();
     if (isAuthenticated) {

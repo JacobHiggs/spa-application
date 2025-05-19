@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>SPA Auth0 Example</title>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+</head>
+
+<body>
+    <h1>Welcome</h1>
+    <button id="login">Log In</button>
+    <button id="logout" style="display:none;">Log Out</button>
+    <pre id="user"></pre>
+
+    <script type="module">
+
+        import { createAuth0Client } from 'https://cdn.jsdelivr.net/npm/@auth0/auth0-spa-js@2.0.4/+esm';
+
+        // Replace with your own Auth0 domain and client ID
+        const auth0Client = await createAuth0Client({
+            domain: "jacoblogin.acmetest.org",
+            authorizationParams: {
+                client_id: "Sflii0gup2Gjg65gsmj6Yfrs737BbVml",
+                redirect_uri: window.location.origin
+            }
+        });
+
+        // Handle redirect from Auth0 (after login)
+        if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+            await auth0Client.handleRedirectCallback();
+            window.history.replaceState({}, document.title, "/");
+        }
+
+        // Update UI
+        const isAuthenticated = await auth0Client.isAuthenticated();
+        if (isAuthenticated) {
+            const user = await auth0Client.getUser();
+            document.getElementById("user").textContent = JSON.stringify(user, null, 2);
+            document.getElementById("login").style.display = "none";
+            document.getElementById("logout").style.display = "block";
+        }
+
+        // Login handler
+        document.getElementById("login").addEventListener("click", () => {
+            auth0Client.loginWithRedirect();
+        });
+
+        // Logout handler
+        document.getElementById("logout").addEventListener("click", () => {
+            auth0Client.logout({ logoutParams: { returnTo: window.location.origin } });
+        });
+    </script>
+</body>
+
+</html>

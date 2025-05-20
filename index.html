@@ -14,13 +14,16 @@
 
     <!-- Load the Auth0 SPA SDK from JSDelivr -->
     <script type="module">
+        //        import { createAuth0Client } from 'https://jacobhiggs.github.io/spa-application/auth0.js';
         import { createAuth0Client } from 'https://cdn.jsdelivr.net/npm/@auth0/auth0-spa-js@2.0.4/+esm';
 
         // Initialize Auth0 client
         const auth0Client = await createAuth0Client({
-            domain: "jacoblogin.acmetest.org",
-            client_id: "Sflii0gup2Gjg65gsmj6Yfrs737BbVml",
-            redirect_uri: "https://jacobhiggs.github.io/spa-application/"
+            domain: 'jacoblogin.acmetest.org',
+            clientId: 'Sflii0gup2Gjg65gsmj6Yfrs737BbVml',
+            authorizationParams: {
+                redirect_uri: 'https://jacobhiggs.github.io/spa-application/'
+            }
         });
 
         // Handle redirect from Auth0 after login

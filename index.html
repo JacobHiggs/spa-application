@@ -23,7 +23,7 @@
         if (window.location.search.includes("session_token=")) {
             const params = new URLSearchParams(window.location.search);
             sessionToken = params.get('session_token');
-            document.getElementById("sessionToken").textContent = sessionToken;
+            document.getElementById("sessionToken").textContent = "The recieved Session Token is " + sessionToken;
         }
 
         // Initialize Auth0 client

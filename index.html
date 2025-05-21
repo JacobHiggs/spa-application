@@ -18,15 +18,15 @@
     <script type="module">
         import { createAuth0Client } from 'https://jacobhiggs.github.io/spa-application/auth0.js';
 
-        // Extract session_token if present
+        // Extract session_token from URL (if present)
         let sessionToken = null;
         if (window.location.search.includes("session_token=")) {
             const params = new URLSearchParams(window.location.search);
             sessionToken = params.get('session_token');
-            document.getElementById("sessionToken").textContent = "The recieved Session Token is " + sessionToken;
+            document.getElementById("sessionToken").textContent = sessionToken;
         }
 
-        // Initialize Auth0 client
+        // Initialize Auth0 client without session_token
         const auth0Client = await createAuth0Client({
             domain: 'jacoblogin.acmetest.org',
             clientId: 'Sflii0gup2Gjg65gsmj6Yfrs737BbVml',
@@ -53,12 +53,15 @@
 
         // Login button handler
         document.getElementById("login").addEventListener("click", () => {
-            auth0Client.loginWithRedirect({
+            // Add session_token to the redirect call
+            const loginOptions = {
                 authorizationParams: {
                     redirect_uri: 'https://jacobhiggs.github.io/spa-application/',
                     ...(sessionToken && { session_token: sessionToken }) // Add session_token if present
                 }
-            });
+            };
+            
+            auth0Client.loginWithRedirect(loginOptions);
         });
 
         // Logout button handler

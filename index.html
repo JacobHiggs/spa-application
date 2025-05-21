@@ -17,22 +17,22 @@
     <!-- Load the Auth0 SPA SDK from JSDelivr -->
     <script type="module">
         import { createAuth0Client } from 'https://jacobhiggs.github.io/spa-application/auth0.js';
-        //import { createAuth0Client } from 'https://jacobhiggs.github.io/spa-application/auth0.js';
 
-        // Handle session token
+        // Extract session_token if present
+        let sessionToken = null;
         if (window.location.search.includes("session_token=")) {
             const params = new URLSearchParams(window.location.search);
-            const sessionToken = params.get('session_token');
-            
-            document.getElementById("sessionToken").textContent = sessionToken
+            sessionToken = params.get('session_token');
+            document.getElementById("sessionToken").textContent = sessionToken;
         }
-        
+
         // Initialize Auth0 client
         const auth0Client = await createAuth0Client({
             domain: 'jacoblogin.acmetest.org',
             clientId: 'Sflii0gup2Gjg65gsmj6Yfrs737BbVml',
             authorizationParams: {
                 redirect_uri: 'https://jacobhiggs.github.io/spa-application/'
+                // session_token will be added dynamically during login
             }
         });
 
@@ -42,7 +42,7 @@
             window.history.replaceState({}, document.title, "/spa-application/");
         }
 
-        // Update UI after authentication
+        // Update UI if authenticated
         const isAuthenticated = await auth0Client.isAuthenticated();
         if (isAuthenticated) {
             const user = await auth0Client.getUser();
@@ -51,12 +51,17 @@
             document.getElementById("logout").style.display = "block";
         }
 
-        // Event listener for the login button
+        // Login button handler
         document.getElementById("login").addEventListener("click", () => {
-            auth0Client.loginWithRedirect();
+            auth0Client.loginWithRedirect({
+                authorizationParams: {
+                    redirect_uri: 'https://jacobhiggs.github.io/spa-application/',
+                    ...(sessionToken && { session_token: sessionToken }) // Add session_token if present
+                }
+            });
         });
 
-        // Event listener for the logout button
+        // Logout button handler
         document.getElementById("logout").addEventListener("click", () => {
             auth0Client.logout({
                 logoutParams: {

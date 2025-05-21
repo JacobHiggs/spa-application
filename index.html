@@ -10,6 +10,7 @@
     <h1>Welcome All to the new Login</h1>
     <button id="login">Log In</button>
     <button id="logout" style="display:none;">Log Out</button>
+    <button id="redirectToWebViewRestricted">Restricted endpoint from Webview</button>
     <pre id="user"></pre>
     <br></br>
     <pre id="sessionToken"></pre>
@@ -62,6 +63,14 @@
             };
             
             auth0Client.loginWithRedirect(loginOptions);
+        });
+
+        // Redirect button handler
+        document.getElementById("redirectToWebViewRestricted").addEventListener("click", () => {
+            // Add session_token to the redirect call
+            function redirectToSite() {
+              window.location.href = "https://jacobhiggs.github.io/spa-application/restricted.html";
+            }
         });
 
         // Logout button handler

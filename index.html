@@ -20,7 +20,7 @@
         //import { createAuth0Client } from 'https://jacobhiggs.github.io/spa-application/auth0.js';
 
         // Handle redirect from Auth0 after login
-        if (window.location.search.includes("session_token=") {
+        if (window.location.search.includes("session_token=")) {
             const params = new URLSearchParams(window.location.search);
             const sessionToken = params.get('session_token');
 

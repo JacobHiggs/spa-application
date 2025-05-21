@@ -11,20 +11,42 @@
     <button id="login">Log In</button>
     <button id="logout" style="display:none;">Log Out</button>
     <pre id="user"></pre>
+    <br></br>
+    <pre id="sessionToken"></pre>
 
     <!-- Load the Auth0 SPA SDK from JSDelivr -->
     <script type="module">
         import { createAuth0Client } from 'https://jacobhiggs.github.io/spa-application/auth0.js';
         //import { createAuth0Client } from 'https://jacobhiggs.github.io/spa-application/auth0.js';
 
-        // Initialize Auth0 client
-        const auth0Client = await createAuth0Client({
-            domain: 'jacoblogin.acmetest.org',
-            clientId: 'Sflii0gup2Gjg65gsmj6Yfrs737BbVml',
-            authorizationParams: {
-                redirect_uri: 'https://jacobhiggs.github.io/spa-application/'
-            }
-        });
+        // Handle redirect from Auth0 after login
+        if (window.location.search.includes("session_token=") {
+            const params = new URLSearchParams(window.location.search);
+            const sessionToken = params.get('session_token');
+
+            document.getElementById("sessionToken").textContent = sessionToken
+
+            // Initialize Auth0 client
+            const auth0Client = await createAuth0Client({
+                domain: 'jacoblogin.acmetest.org',
+                clientId: 'Sflii0gup2Gjg65gsmj6Yfrs737BbVml',
+                authorizationParams: {
+                    redirect_uri: 'https://jacobhiggs.github.io/spa-application/'
+                    session_token: sessionToken
+                }
+            });
+        }
+        else
+        {
+            // Initialize Auth0 client
+            const auth0Client = await createAuth0Client({
+                domain: 'jacoblogin.acmetest.org',
+                clientId: 'Sflii0gup2Gjg65gsmj6Yfrs737BbVml',
+                authorizationParams: {
+                    redirect_uri: 'https://jacobhiggs.github.io/spa-application/'
+                }
+            });
+        }
 
         // Handle redirect from Auth0 after login
         if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
